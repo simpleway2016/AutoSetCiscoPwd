@@ -118,7 +118,7 @@ namespace AutoSetCiscoPwd
             StringBuilder windowText = new StringBuilder(256);
             GetWindowText(hWnd, windowText, 256);
             var title = windowText.ToString();
-            if (title.Contains("Cisco Secure Client") && title.Contains(" | "))
+            if ((title.Contains("Cisco Secure Client") || title.Contains("Cisco AnyConnect")) && title.Contains(" | "))
             {
                 var isPwdWindow = FindControlWithText(hWnd, "Please enter your password");
                 if (isPwdWindow != IntPtr.Zero)
@@ -131,7 +131,8 @@ namespace AutoSetCiscoPwd
                         SetTextBoxValue(textHwnd, password.Trim());
 
                         //找到确定按钮
-                        var btnOkHwnd = FindControlWithText(hWnd, "确定");
+                        var btnOkHwnd = FindChildControlByClass(hWnd, "Button");
+
                         if (btnOkHwnd != IntPtr.Zero)
                         {
                             ClickButton(btnOkHwnd);
